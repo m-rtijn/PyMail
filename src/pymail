@@ -12,6 +12,7 @@ import imaplib
 import sys
 import time
 import pickle
+import os.path
 
 # -------------------------------------------------------
 
@@ -75,13 +76,22 @@ def emailrecv(useSysArgv):
 
     print(rawEmail)
 
+# Load the password and email address from the files
+def Login():
+    if os.path.isfile("eMailAddr.tijn") == True:
+        eMailAddr = pickle.load(open("eMailAddr.tijn", "rb"))
+        eMailPass = pickle.load(open("eMailPass.tijn", "rb"))
+    else:
+        eMailAddr = raw_input("email address = ")
+        eMailPass = raw_input("email password = ")
+
 def pymailHelp():
     print("Usage:")
     print("pymail send")
     print("pymail send <receiver> <subject> <body>")
     print("pymail receive")
     print("pymail receive <n>")
-    sys.exit()
+    return
 
 # -------------------------------------------------------
 
@@ -89,11 +99,13 @@ def pymailHelp():
 
 try:
     if sys.argv[1] == "send":
+        Login()
         if len(sys.argv) > 2:
             emailsend(True)
         else:
             emailsend(False)
     elif sys.argv[1] == "receive":
+        Login()
         if len(sys.argv) > 2:
             emailrecv(True)
         else:
@@ -101,14 +113,5 @@ try:
     else:
         pymailHelp()
 except:
-    pymailHelp()
+    pass
 
-# Load the password and email address from the files
-try:
-    eMailAddr = pickle.load(open("eMailAddr.tijn", "rb"))
-    eMailPass = pickle.load(open("eMailPass.tijn", "rb"))
-
-except:
-    print("Error reading config files.")
-    eMailAddr = raw_input("email address = ")
-    eMailPass = raw_input("email password = ")
