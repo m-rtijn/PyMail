@@ -35,7 +35,7 @@ This will store your credentials in a place where PyMail can find it, but please
 
 # Use
 
-####There are multiple ways of using PyMail, here are the most important ways:
+####There are multiple ways of using PyMail, here are the most important options:
 
 #####Sending an email can be done in two ways.
 
