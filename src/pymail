@@ -16,6 +16,12 @@ import os.path
 
 # -------------------------------------------------------
 
+# Global variables
+eMailAddr = ""
+eMailPass = ""
+
+# -------------------------------------------------------
+
 # Functions
 
 def emailsend(useSysArgv):
@@ -78,6 +84,8 @@ def emailrecv(useSysArgv):
 
 # Load the password and email address from the files
 def Login():
+    global eMailAddr
+	global eMailPass
     if os.path.isfile("eMailAddr.tijn") == True:
         eMailAddr = pickle.load(open("eMailAddr.tijn", "rb"))
         eMailPass = pickle.load(open("eMailPass.tijn", "rb"))
