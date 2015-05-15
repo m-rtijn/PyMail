@@ -1,0 +1,115 @@
+#!/usr/bin/python
+
+# -------------------------------------------------------
+
+# This python email client is made by: Tijndagamer
+# Feel free to copy the whole script or pieces of the script.
+
+# -------------------------------------------------------
+
+import smtplib
+import imaplib
+import sys
+import time
+import pickle
+
+# -------------------------------------------------------
+
+# init
+
+# Load the password and email address from the files
+try:
+    eMailAddr = pickle.load(open("eMailAddr.tijn", "rb"))
+    eMailPass = pickle.load(open("eMailPass.tijn", "rb"))
+
+except:
+    print("Error reading config files.")
+    eMailAddr = raw_input("email address = ")
+    eMailPass = raw_input("email password = ")
+
+# -------------------------------------------------------
+
+# Functions
+
+def emailsend(useSysArgv):
+    # Create the email
+    if useSysArgv == False:
+        toAddr = raw_input("Receiver address = ")
+        subject = raw_input("Subject = ")
+        body = raw_input("Body =")
+    elif useSysArgv == True:
+        toAddr = sys.argv[2]
+        subject = sys.argv[3]
+        body = str(sys.argv[4:len(sys.argv)])
+        body = body.replace('[','')
+        body = body.replace(']','')
+        body = body.replace(',','')
+        body = body.replace("'",'')
+
+    header = "Subject: %s\n\n%s" %(subject, body)
+    print("Your email is:")
+    print(header)
+
+    # Sending the email
+    print("Sending email...")
+    s = smtplib.SMTP('smtp.gmail.com', 587)
+    s.ehlo()
+    s.starttls()
+    s.ehlo()
+    s.login(eMailAddr, eMailPass)
+    s.sendmail(eMailAddr, toAddr, header)
+    s.quit
+    print("Email sent.")
+
+# Newer version of recv using IMAP4
+def emailrecv(useSysArgv):
+    # Connect and login
+    mail = imaplib.IMAP4_SSL("imap.gmail.com")
+    mail.login(eMailAddr, eMailPass)
+
+    # Select inbox
+    mail.select("inbox")
+
+    # Get the latest email id
+    result, data = mail.search(None, "ALL")
+    msgIDs = data[0]
+    msgIDList = msgIDs.split(' ')
+
+    # If n is not given, get newest email (-1)
+    if useSysArgv == False:
+        n = -1
+    elif useSysArgv == True:
+        n = int(sys.argv[2])
+
+    EmailID = msgIDList[n]
+        
+    # Get the latest email
+    result, data = mail.fetch(EmailID, "(RFC822)")
+    rawEmail = data[0][1]
+
+    print(rawEmail)
+
+def help():
+    print("Usage:")
+    print("pymail send")
+    print("pymail send <receiver> <subject> <body>")
+    print("pymail receive")
+    print("pymail receive <n>")
+
+# -------------------------------------------------------
+
+try:
+    if sys.argv[1] == "send":
+        if len(sys.argv) > 2:
+            emailsend(True)
+        else:
+            emailsend(False)
+    elif sys.argv[1] == "receive":
+        if len(sys.argv) > 2:
+            emailrecv(True)
+        else:
+            emailrecv(False)
+    else:
+        help()
+except:
+    help()

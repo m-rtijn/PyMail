@@ -1,0 +1,17 @@
+#!/usr/bin/python
+
+import pickle
+import sys
+
+def config():
+	print("Be aware that the file where your password is stored in is NOT encrypted")
+	eMailAddr = raw_input("Email Address =")
+	eMailPass = raw_input("Email Password =")
+	pickle.dump(eMailAddr, open("eMailAddr.tijn", "wb"))
+	pickle.dump(eMailPass, open("eMailPass.tijn", "wb"))
+	press_enter = raw_input("PRESS ENTER")
+	if press_enter == "":
+		sys.exit
+	else:
+		sys.exit
+config()
