@@ -15,20 +15,6 @@ import pickle
 
 # -------------------------------------------------------
 
-# init
-
-# Load the password and email address from the files
-try:
-    eMailAddr = pickle.load(open("eMailAddr.tijn", "rb"))
-    eMailPass = pickle.load(open("eMailPass.tijn", "rb"))
-
-except:
-    print("Error reading config files.")
-    eMailAddr = raw_input("email address = ")
-    eMailPass = raw_input("email password = ")
-
-# -------------------------------------------------------
-
 # Functions
 
 def emailsend(useSysArgv):
@@ -89,14 +75,17 @@ def emailrecv(useSysArgv):
 
     print(rawEmail)
 
-def help():
+def pymailHelp():
     print("Usage:")
     print("pymail send")
     print("pymail send <receiver> <subject> <body>")
     print("pymail receive")
     print("pymail receive <n>")
+    sys.exit()
 
 # -------------------------------------------------------
+
+# init
 
 try:
     if sys.argv[1] == "send":
@@ -110,6 +99,16 @@ try:
         else:
             emailrecv(False)
     else:
-        help()
+        pymailHelp()
 except:
-    help()
+    pymailHelp()
+
+# Load the password and email address from the files
+try:
+    eMailAddr = pickle.load(open("eMailAddr.tijn", "rb"))
+    eMailPass = pickle.load(open("eMailPass.tijn", "rb"))
+
+except:
+    print("Error reading config files.")
+    eMailAddr = raw_input("email address = ")
+    eMailPass = raw_input("email password = ")
