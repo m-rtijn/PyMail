@@ -18,6 +18,14 @@ Then make config and pymail executable:
 Then you can move pymail to ~/bin/ so you can use it everywhere:
 
     mv pymail ~/bin/
+
+If you still can't run pymail from other place than ~/bin, you have add this line to ~/.bashrc:
+
+    echo export PATH=~/bin:"$PATH"
+    
+and then run this command:
+
+     . .bashrc
     
 If you don't want to re-enter your credentials every time you use PyMail you can run
 
