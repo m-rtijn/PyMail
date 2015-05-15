@@ -89,12 +89,23 @@ def Login():
         eMailAddr = pickle.load(open("eMailAddr.tijn", "rb"))
         eMailPass = pickle.load(open("eMailPass.tijn", "rb"))
     else:
-        eMailAddr = raw_input("email address = ")
-        print("email password = "),
+        eMailAddr = raw_input("Email address = ")
+        print("Email password = "),
         os.popen("stty -echo")
         eMailPass = raw_input()
         os.popen("stty echo")
 
+def Config():
+    print("BE AWARE THAT YOUR CREDENTIALS WILL NOT BE ENCRYPTED.")
+    eMailAddr = raw_input("Email address = ")
+
+    print("Email password = "),
+    os.popen("stty -echo")
+    eMailPass = raw_input()
+    os.popen("stty echo")
+    pickle.dump(eMailAddr, open("eMailAddr.tijn", "wb"))
+    pickle.dump(eMailPass, open("eMailPass.tijn", "wb"))		
+		
 def pymailHelp():
     print("Usage:")
     print("pymail send")
@@ -119,6 +130,10 @@ try:
             emailrecv(True)
         else:
             emailrecv(False)
+    elif sys.argv[1] == "help":
+        pymailHelp()
+    elif sys.argv[1] == "config":
+        Config()
     else:
         pymailHelp()
 except:
