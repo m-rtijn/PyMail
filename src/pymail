@@ -12,7 +12,7 @@ import imaplib
 import sys
 import time
 import pickle
-import os.path
+import os
 
 # -------------------------------------------------------
 
@@ -82,7 +82,6 @@ def emailrecv(useSysArgv):
 
     print(rawEmail)
 
-# Load the password and email address from the files
 def Login():
     global eMailAddr
     global eMailPass
@@ -91,7 +90,10 @@ def Login():
         eMailPass = pickle.load(open("eMailPass.tijn", "rb"))
     else:
         eMailAddr = raw_input("email address = ")
-        eMailPass = raw_input("email password = ")
+        print("email password = "),
+        os.popen("stty -echo")
+        eMailPass = raw_input()
+        os.popen("stty echo")
 
 def pymailHelp():
     print("Usage:")
@@ -99,7 +101,6 @@ def pymailHelp():
     print("pymail send <receiver> <subject> <body>")
     print("pymail receive")
     print("pymail receive <n>")
-    return
 
 # -------------------------------------------------------
 
