@@ -29,7 +29,7 @@ def emailsend(useSysArgv):
     if useSysArgv == False:
         toAddr = raw_input("Receiver address = ")
         subject = raw_input("Subject = ")
-        body = raw_input("Body =")
+        body = raw_input("Body = ")
     elif useSysArgv == True:
         toAddr = sys.argv[2]
         subject = sys.argv[3]
