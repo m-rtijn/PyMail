@@ -81,3 +81,4 @@ This command wil print a short list of all the possibilities, without an explana
 # Known issues
 
 * When the subject is given from the command line it cannot have any spaces in it
+* config / loading credentials only works when the user is in ~/bin
