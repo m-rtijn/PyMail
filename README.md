@@ -9,10 +9,9 @@ First, clone the repo:
 
     git clone https://github.com/Tijndagamer/PyMail.git
     
-Then make config and pymail executable:
+Then make pymail executable:
 
     cd PyMail/src
-    chmod +x config
     chmod +x pymail
     
 Then you can move pymail to ~/bin/ so you can use it everywhere:
