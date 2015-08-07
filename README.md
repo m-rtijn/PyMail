@@ -49,7 +49,7 @@ The second way is to this command:
     pymail send <receiver> <subject> <body>
     
 This will immediately sent the email to <receiver> with <subject> as subject and <body> as body.
-**Please note that both `<receiver>` and `<subject>` cannot contain any spaces.**
+**Please note if <receiver> and/or <subject> contains spaces, you should but them between double qoutes.**
 
 #####Receiving an email can also be done in two ways.
 
@@ -75,7 +75,7 @@ If you're not sure what the options were again, run this:
 
     pymail help
     
-This command wil print a short list of all the possibilities, without an explanation.
+This command wil print a short list of the possible options.
 
 # Known issues
 
