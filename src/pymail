@@ -16,21 +16,21 @@ import os
 # -------------------------------------------------------
 
 # Global variables
-eMailAddr = ""
-eMailPass = ""
+email_addr = ""
+email_pass = ""
 
 # -------------------------------------------------------
 
 # Functions
 
-def emailsend(useSysArgv):
-    # Create the email
-    if useSysArgv == False:
-        toAddr = raw_input("Receiver address = ")
+def email_send(use_sys_argv):
+    """Send an email"""
+    if use_sys_argv == False:
+        to_addr = raw_input("Receiver address = ")
         subject = raw_input("Subject = ")
         body = raw_input("Body = ")
-    elif useSysArgv == True:
-        toAddr = sys.argv[2]
+    elif use_sys_argv == True:
+        to_addr = sys.argv[2]
         subject = sys.argv[3]
         body = str(sys.argv[4:len(sys.argv)])
         body = body.replace('[','')
@@ -48,70 +48,70 @@ def emailsend(useSysArgv):
     s.ehlo()
     s.starttls()
     s.ehlo()
-    s.login(eMailAddr, eMailPass)
-    s.sendmail(eMailAddr, toAddr, header)
+    s.login(email_addr, email_pass)
+    s.sendmail(email_addr, to_addr, header)
     s.quit
     print("Email sent.")
 
-# Newer version of recv using IMAP4
-def emailrecv(useSysArgv):
+def email_recv(use_sys_argv):
+    """Receive the newest or given email"""
     # Connect and login
     mail = imaplib.IMAP4_SSL("imap.gmail.com")
-    mail.login(eMailAddr, eMailPass)
+    mail.login(email_addr, email_pass)
 
     # Select inbox
     mail.select("inbox")
 
     # Get the latest email id
     result, data = mail.search(None, "ALL")
-    msgIDs = data[0]
-    msgIDList = msgIDs.split(' ')
+    msg_ids = data[0]
+    msg_id_list = msgIDs.split(' ')
 
     # If n is not given, get newest email (-1)
-    if useSysArgv == False:
+    if use_sys_argv == False:
         n = -1
-    elif useSysArgv == True:
+    elif use_sys_argv == True:
         n = int(sys.argv[2])
 
-    EmailID = msgIDList[n]
+    email_id = msg_id_list[n]
         
     # Get the latest email
-    result, data = mail.fetch(EmailID, "(RFC822)")
-    rawEmail = data[0][1]
+    result, data = mail.fetch(email_id, "(RFC822)")
+    raw_email = data[0][1]
 
-    print(rawEmail)
+    print(raw_email)
 
-def Login():
-    global eMailAddr
-    global eMailPass
+def login():
+    global email_addr
+    global email_pass
     if os.path.isfile("mailaddr") == True:
-        mailAddrFile = open("mailaddr", 'r')
-        eMailAddr = mailAddrFile.read()
-        mailPassFile = open("mailpass", 'r')
-        eMailPass = mailPassFile.read()
+        mail_addr_file = open("mailaddr", 'r')
+        email_addr = mail_addr_file.read()
+        mail_pass_file = open("mailpass", 'r')
+        email_pass = mail_pass_file.read()
     else:
-        eMailAddr = raw_input("Email address = ")
+        email_addr = raw_input("Email address = ")
         print("Email password = "),
         os.popen("stty -echo")
-        eMailPass = raw_input()
+        email_pass = raw_input()
         os.popen("stty echo")
 
-def Config():
+def config():
     print("BE AWARE THAT YOUR CREDENTIALS WILL NOT BE ENCRYPTED.")
-    eMailAddr = raw_input("Email address = ")
+    email_addr = raw_input("Email address = ")
 
     print("Email password = "),
     os.popen("stty -echo")
-    eMailPass = raw_input()
+    email_pass = raw_input()
     os.popen("stty echo")
 
-    mailAddrFile = open("mailaddr", 'w')
-    mailPassFile = open("mailpass", 'w')
+    mail_addr_file = open("mailaddr", 'w')
+    mail_pass_file = open("mailpass", 'w')
 
-    mailAddrFile.write(eMailAddr)
-    mailPassFile.write(eMailPass)
+    mail_addr_file.write(email_addr)
+    mail_pass_file.write(email_pass)
 
-def pymailHelp():
+def pymail_help():
     print("Usage:")
     print("pymail send")
     print("pymail send <receiver> <subject> <body>")
@@ -122,25 +122,25 @@ def pymailHelp():
 
 # init
 
-try:
-    if sys.argv[1] == "send":
-        Login()
-        if len(sys.argv) > 2:
-            emailsend(True)
-        else:
-            emailsend(False)
-    elif sys.argv[1] == "receive":
-        Login()
-        if len(sys.argv) > 2:
-            emailrecv(True)
-        else:
-            emailrecv(False)
-    elif sys.argv[1] == "help":
-        pymailHelp()
-    elif sys.argv[1] == "config":
-        Config()
+if len(sys.argv) < 2:
+    pymail_help()
+elif sys.argv[1] == "send":
+    login()
+    if len(sys.argv) > 2:
+        email_send(True)
     else:
-        pymailHelp()
-except:
-    pass
+        email_send(False)
+elif sys.argv[1] == "receive":
+    login()
+    if len(sys.argv) > 2:
+        email_recv(True)
+    else:
+        email_recv(False)
+elif sys.argv[1] == "help":
+    pymail_help()
+elif sys.argv[1] == "config":
+    config()
+else:
+    pymail_help()
+
 
