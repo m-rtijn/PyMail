@@ -46,10 +46,10 @@ After you hit enter, you wil be prompted to enter the email address of the recei
 
 The second way is to this command:
 
-    pymail send receiver subject body
+    pymail send <receiver> <subject> <body>
     
 This will immediately sent the email to receiver with subject as subject and body as body.
-**Please note if receiver and/or subject contains spaces, you should but them between double qoutes.**
+**Please note that any arguments given which should contain spaces, you have to put double quotes around them.
 
 #####Receiving an email can also be done in two ways.
 

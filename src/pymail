@@ -12,7 +12,6 @@ import imaplib
 import sys
 import time
 import os
-import re
 
 # -------------------------------------------------------
 
@@ -33,8 +32,7 @@ def email_send(use_sys_argv):
     elif use_sys_argv == True:
         to_addr = sys.argv[2]
         subject = sys.argv[3]
-        body = str(sys.argv[4:len(sys.argv)])
-        body = re.sub(r"\[*'*,*\]*","", body)
+        body = sys.argv[4]
 
     header = "Subject: %s\n\n%s" %(subject, body)
     print("Your email is:")
