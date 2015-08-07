@@ -12,6 +12,7 @@ import imaplib
 import sys
 import time
 import os
+import re
 
 # -------------------------------------------------------
 
@@ -33,10 +34,7 @@ def email_send(use_sys_argv):
         to_addr = sys.argv[2]
         subject = sys.argv[3]
         body = str(sys.argv[4:len(sys.argv)])
-        body = body.replace('[','')
-        body = body.replace(']','')
-        body = body.replace(',','')
-        body = body.replace("'",'')
+        body = re.sub(r"\[*'*,*\]*","", body)
 
     header = "Subject: %s\n\n%s" %(subject, body)
     print("Your email is:")
@@ -113,6 +111,8 @@ def config():
 
 def pymail_help():
     print("Usage:")
+    print("pymail help")
+    print("pymail config")
     print("pymail send")
     print("pymail send <receiver> <subject> <body>")
     print("pymail receive")
