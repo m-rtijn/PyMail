@@ -15,7 +15,6 @@ import os
 
 # -------------------------------------------------------
 
-# Global variables
 email_addr = ""
 email_pass = ""
 
@@ -61,7 +60,7 @@ def email_recv(use_sys_argv):
     # Get the latest email id
     result, data = mail.search(None, "ALL")
     msg_ids = data[0]
-    msg_id_list = msgIDs.split(' ')
+    msg_id_list = msg_ids.split(' ')
 
     # If n is not given, get newest email (-1)
     if use_sys_argv == False:
