@@ -9,6 +9,7 @@ int starty;
 char *choices[];
 
 int main(int argc, char *argv[]);
+void terminate(char *errormsg);
 
 void print_choice_menu(WINDOW *choice_menu, int highlight);
 int get_choice(int startx, int starty);

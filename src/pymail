@@ -7,6 +7,7 @@
 
 # -------------------------------------------------------
 
+
 import smtplib
 import imaplib
 import sys
@@ -17,6 +18,7 @@ import os
 
 email_addr = ""
 email_pass = ""
+install_path = "/home/martijn/Coding/git/PyMail/src/"
 
 # -------------------------------------------------------
 
@@ -102,10 +104,10 @@ def login():
     """Get account credentials"""
     global email_addr
     global email_pass
-    if os.path.isfile("mailaddr") == True:
-        mail_addr_file = open("mailaddr", 'r')
+    if os.path.isfile(install_path + "mailaddr") == True:
+        mail_addr_file = open(install_path + "mailaddr", 'r')
         email_addr = mail_addr_file.read()
-        mail_pass_file = open("mailpass", 'r')
+        mail_pass_file = open(install_path + "mailpass", 'r')
         email_pass = mail_pass_file.read()
     else:
         email_addr = raw_input("Email address = ")

@@ -1,9 +1,11 @@
 Add:
     - Enter support when passing from command line
-    - PyMail CLI using ncurses in C
-    - Support to read a concept email from a text file
+    - PyMail CLI using ncurses in C:
+        - ~~Send emails~~
+        - Receive emails
+        - Configure PyMail
+    - Update README.md
 
 Test:
 
 Fix:
-    - Fix password saving

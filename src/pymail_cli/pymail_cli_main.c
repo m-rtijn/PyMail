@@ -50,3 +50,12 @@ int main(int argc, char *argv[])
     endwin();
     return 0;
 }
+
+void terminate(char *errormsg)
+{
+    printw("%s", errormsg);
+    clrtoeol();
+    refresh();
+    endwin();
+    return 0;
+}
