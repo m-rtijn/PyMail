@@ -23,7 +23,6 @@ int main(int argc, char *argv[])
     // Init ncurses
     initscr();
     clear();
-    noecho();
     //cbreak();
 
     mvprintw(0, 0, "Welcome to PyMail.");

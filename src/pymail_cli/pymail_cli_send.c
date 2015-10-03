@@ -16,16 +16,21 @@ void print_send_menu(WINDOW *send_menu)
 
     box(send_menu, 0, 0);
 
-    mvwprintw(send_menu, y, x, "To:");
-    mvwprintw(send_menu, y + 3, x, "Subject:");
-    mvwprintw(send_menu, y + 6, x, "Body:");
+    mvwprintw(send_menu, y, x, "To: ");
+    mvwprintw(send_menu, y + 1, x, "Subject: ");
+    mvwprintw(send_menu, y + 2, x, "Body: ");
     wrefresh(send_menu);
 
     char to_address[256]; 
-    mvwgetstr(send_menu, y, x + 3, to_address);
+    mvwgetstr(send_menu, y, x + strlen("To: "), to_address);
     wrefresh(send_menu);
 
-    mvwprintw(send_menu, y, x + 4, "%s", to_address);
+    char subject[1024];
+    mvwgetstr(send_menu, y + 1, x + strlen("Subject: "), subject);
+    wrefresh(send_menu);
+
+    char body[65536];
+    mvwgetstr(send_menu, y + 2, x + strlen("Body: "), body);
     wrefresh(send_menu);
 }
 
