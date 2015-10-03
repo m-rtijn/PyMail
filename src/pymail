@@ -39,6 +39,7 @@ def send_email_from_terminal(use_sys_argv):
 
     send_mail(to_addr, subject, body, True)
 
+
 def send_email_from_file(delete=False):
     """Gets the email components from a given file
     and sends an email with said components.
@@ -60,24 +61,25 @@ def send_email_from_file(delete=False):
     	# Delete the file
         os.popen("trash " + sys.argv[2])
 
-def send_mail(to_addr, subject, body, verbose):
-    header = "Subject: %s\n\n%s" %(subject, body)
 
-    if verbose == True:
+def send_mail(to_addr, subject, body, verbose):
+    header = "Subject: {}\n\n{}".format(subject, body)
+
+    if verbose:
         print("Your email is:")
         print(header)
-
-    if verbose == True:
         print("Sending email...")
 
     s = smtplib.SMTP('smtp.gmail.com', 587)
+
     s.ehlo()
     s.starttls()
     s.ehlo()
     s.login(email_addr, email_pass)
     s.sendmail(email_addr, to_addr, header)
     s.quit
-    if verbose == True:
+
+    if verbose:
         print("Email sent.")
 
 
@@ -109,6 +111,7 @@ def email_recv(use_sys_argv):
 
     print(raw_email)
 
+
 def login():
     """Get account credentials"""
     global email_addr
@@ -126,6 +129,7 @@ def login():
         os.popen("stty echo")
         print("\n")
 
+
 def config():
     """Get and save account credentials"""
     print("BE AWARE THAT YOUR CREDENTIALS WILL NOT BE ENCRYPTED.")
@@ -142,6 +146,7 @@ def config():
 
     mail_addr_file.write(email_addr)
     mail_pass_file.write(email_pass)
+
 
 def pymail_help():
     """Prints basic help"""
