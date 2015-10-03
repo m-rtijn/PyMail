@@ -17,7 +17,7 @@ char *choices[] = {
                   };
 int choicesc = sizeof(choices) / sizeof(char *);
 
-void print_main_menu(WINDOW *choice_menu, int highlight)
+void print_choice_menu(WINDOW *choice_menu, int highlight)
 {
     int x, y, i;
     x = 2;
@@ -53,7 +53,7 @@ int get_choice(int startx, int starty)
     keypad(choice_menu, TRUE);
     mvprintw(0, 0, "Welcome to PyMail.");
     refresh();
-    print_main_menu(choice_menu, highlight);
+    print_choice_menu(choice_menu, highlight);
     while(1)
     {
         c = wgetch(choice_menu);
@@ -87,13 +87,19 @@ int get_choice(int startx, int starty)
                 refresh();
                 break;
         }
-        print_main_menu(choice_menu, highlight);
+        print_choice_menu(choice_menu, highlight);
         if (choice != 0)
         {
             break;
         }
     }
 
-    mvprintw(23, 0, "%s", choices[choice - 1]);
+    //mvprintw(23, 0, "%s", choices[choice - 1]);
+    wclear(choice_menu);
+    wclrtobot(choice_menu);
+    wclrtoeol(choice_menu);
+    wrefresh(choice_menu);
+    delwin(choice_menu);
+    refresh();
     return choice;
 }
