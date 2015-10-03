@@ -6,7 +6,6 @@
 
 int startx;
 int starty;
-char *choices[];
 
 int main(int argc, char *argv[]);
 void terminate(char *errormsg);
@@ -16,5 +15,7 @@ int get_choice(int startx, int starty);
 
 void print_send_menu(WINDOW *send_menu);
 void send(int startx, int starty);
+
+void print_help();
 
 #endif // PYMAIL_CLI_H

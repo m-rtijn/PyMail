@@ -9,6 +9,8 @@
 #define WIDTH 30
 #define HEIGHT 10
 
+char *pymail_install_dir = "../pymail";
+
 int main(int argc, char *argv[])
 {
     // Vars
@@ -23,26 +25,45 @@ int main(int argc, char *argv[])
     // Init ncurses
     initscr();
     clear();
-    //cbreak();
 
-    mvprintw(0, 0, "Welcome to PyMail.");
-
-    choice = get_choice(startx, starty);
-
-    switch(choice)
+    while(1)
     {
-        case 1:
-            send(2, 2);
-            break;
-        case 5:
-            clrtoeol();
-            refresh();
-            endwin();
-            return 0;
-        default:
-            break;
+        erase();
+        refresh();
+        mvprintw(0, 0, "Welcome to PyMail.");
 
+        choice = get_choice(startx, starty);
+
+        switch(choice)
+        {
+            case 1:
+                send(2, 2);
+                break;
+            case 2:
+                erase();
+                printw("TODO: Add this option (Receive email)");
+                getch();
+                break;
+            case 3:
+                print_help();
+                break;
+            case 4:
+                erase();
+                printw("TODO: Add this option (Config)");
+                getch();
+                break;
+            case 5:
+                clrtoeol();
+                refresh();
+                endwin();
+                return 0;
+            default:
+                break;
+
+        }
+        refresh();
     }
+
 
     clrtoeol();
     refresh();
@@ -57,5 +78,5 @@ void terminate(char *errormsg)
     clrtoeol();
     refresh();
     endwin();
-    return 0;
+    return;
 }
