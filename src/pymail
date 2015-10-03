@@ -3,6 +3,7 @@
 # -------------------------------------------------------
 
 # This python email client is made by: Tijndagamer
+# This code is simplified by Fredrik A. Madsen-Malmo
 # Published under the MIT license
 
 # -------------------------------------------------------
@@ -25,15 +26,15 @@ install_path = "/home/martijn/Coding/git/PyMail/src/"
 # Functions
 
 def send_email_from_terminal(use_sys_argv):
-    """Send an email"""
-    if use_sys_argv == False:
-        to_addr = raw_input("Receiver address = ")
-        subject = raw_input("Subject = ")
-        body = raw_input("Body = ")
-    elif use_sys_argv == True:
-        to_addr = sys.argv[2]
-        subject = sys.argv[3]
-        body = sys.argv[4]
+    """Set the mail-components from sysargv or from user input
+    depending on if use_sys_argv is True or False. Send mail after
+    setting variables.
+    """
+
+    if use_sys_argv:
+        to_addr, subject, body = [sys.argv[x] for x in range(2,5)]
+    else:
+        to_addr, subject, body = [raw_input(x + " = ") for x in ['Receiver address', 'Subject', 'Body']]
 
     send_mail(to_addr, subject, body, True)
 
@@ -94,7 +95,7 @@ def email_recv(use_sys_argv):
         n = int(sys.argv[2])
 
     email_id = msg_id_list[n]
-        
+
     # Get the latest email
     result, data = mail.fetch(email_id, "(RFC822)")
     raw_email = data[0][1]
