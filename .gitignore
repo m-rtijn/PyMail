@@ -57,3 +57,4 @@ docs/_build/
 target/
 
 src/pymail_cli/pymail_cli
+src/pymail_cli/a.out

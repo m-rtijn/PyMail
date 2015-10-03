@@ -51,7 +51,6 @@ int get_choice(int startx, int starty)
 
     choice_menu = newwin(HEIGHT, WIDTH, starty, startx);
     keypad(choice_menu, TRUE);
-    mvprintw(0, 0, "Welcome to PyMail.");
     refresh();
     print_choice_menu(choice_menu, highlight);
     while(1)
@@ -83,7 +82,7 @@ int get_choice(int startx, int starty)
                 choice = highlight;
                 break;
             default:
-                mvprintw(24, 0, "Charcter pressed is = %3d Hopefully it can be printed as '%c'", c, c);
+                //mvprintw(24, 0, "Charcter pressed is = %3d Hopefully it can be printed as '%c'", c, c);
                 refresh();
                 break;
         }

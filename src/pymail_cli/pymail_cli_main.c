@@ -24,22 +24,26 @@ int main(int argc, char *argv[])
     initscr();
     clear();
     noecho();
-    cbreak();
+    //cbreak();
+
+    mvprintw(0, 0, "Welcome to PyMail.");
 
     choice = get_choice(startx, starty);
 
     switch(choice)
     {
+        case 1:
+            send(2, 2);
+            break;
         case 5:
             clrtoeol();
             refresh();
             endwin();
             return 0;
         default:
-            return 1;
+            break;
 
     }
-    send(2, 2);
 
     clrtoeol();
     refresh();
