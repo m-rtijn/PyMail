@@ -22,7 +22,7 @@ email_pass = ""
 
 # Functions
 
-def email_send(use_sys_argv):
+def send_email_from_terminal(use_sys_argv):
     """Send an email"""
     if use_sys_argv == False:
         to_addr = raw_input("Receiver address = ")
@@ -33,12 +33,32 @@ def email_send(use_sys_argv):
         subject = sys.argv[3]
         body = sys.argv[4]
 
-    header = "Subject: %s\n\n%s" %(subject, body)
-    print("Your email is:")
-    print(header)
+    send_mail(to_addr, subject, body, True)
 
-    # Sending the email
-    print("Sending email...")
+def send_email_from_file(delete_concept):
+    """Sends an email read from a file, given in the commandline"""
+    concept_file_obj = open(sys.argv[2], 'r')
+    concept_file = concept_file_obj.read()
+    split_data = concept_file.split('--- --- ---')
+
+    to_addr = split_data[0].replace('\n','')
+    subject = split_data[1].replace('\n','')
+    body = split_data[2]
+
+    send_mail(to_addr, subject, body, False)
+
+    if delete_concept == True:
+        os.popen("trash " + sys.argv[2])
+
+def send_mail(to_addr, subject, body, verbose):
+    header = "Subject: %s\n\n%s" %(subject, body)
+
+    if verbose == True:
+        print("Your email is:")
+        print(header)
+
+    if verbose == True:
+        print("Sending email...")
     s = smtplib.SMTP('smtp.gmail.com', 587)
     s.ehlo()
     s.starttls()
@@ -46,7 +66,9 @@ def email_send(use_sys_argv):
     s.login(email_addr, email_pass)
     s.sendmail(email_addr, to_addr, header)
     s.quit
-    print("Email sent.")
+    if verbose == True:
+        print("Email sent.")
+
 
 def email_recv(use_sys_argv):
     """Receive the newest or given email"""
@@ -91,8 +113,10 @@ def login():
         os.popen("stty -echo")
         email_pass = raw_input()
         os.popen("stty echo")
+        print("\n")
 
 def config():
+    """Get and save account credentials"""
     print("BE AWARE THAT YOUR CREDENTIALS WILL NOT BE ENCRYPTED.")
     email_addr = raw_input("Email address = ")
 
@@ -100,6 +124,7 @@ def config():
     os.popen("stty -echo")
     email_pass = raw_input()
     os.popen("stty echo")
+    print("\n")
 
     mail_addr_file = open("mailaddr", 'w')
     mail_pass_file = open("mailpass", 'w')
@@ -108,6 +133,7 @@ def config():
     mail_pass_file.write(email_pass)
 
 def pymail_help():
+    """Prints basic help"""
     print("Usage:")
     print("pymail help")
     print("pymail config")
@@ -115,6 +141,8 @@ def pymail_help():
     print("pymail send <receiver> <subject> <body>")
     print("pymail receive")
     print("pymail receive <n>")
+    print("pymail file <file> <delete_concept (y/n)>")
+    print("For more help, see README.md")
 
 # -------------------------------------------------------
 
@@ -125,15 +153,22 @@ if len(sys.argv) < 2:
 elif sys.argv[1] == "send":
     login()
     if len(sys.argv) > 2:
-        email_send(True)
+        send_email_from_terminal(True)
     else:
-        email_send(False)
+        send_email_from_terminal(False)
 elif sys.argv[1] == "receive":
     login()
     if len(sys.argv) > 2:
         email_recv(True)
     else:
         email_recv(False)
+elif sys.argv[1] == "file":
+    login()
+    if sys.argv[3] == "y":
+        send_email_from_file(True);
+    else:
+        send_email_from_file(False);
+
 elif sys.argv[1] == "help":
     pymail_help()
 elif sys.argv[1] == "config":

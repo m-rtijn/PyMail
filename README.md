@@ -67,6 +67,19 @@ This will retrieve the nth email in your email. (-1 being the latest email you g
 
     pymail receive > email.html
 
+You can also read an email you wrote using another text editor and send it using the file option:
+
+    pymail file <filename> <delete_concept>
+
+The layout of your file should be like this:
+
+    to_address
+    ---
+    subject
+    ---
+    body
+
+
 ######Other options
 
 If you're not sure what the options were again, run this:
