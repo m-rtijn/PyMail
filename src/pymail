@@ -77,6 +77,7 @@ def email_recv(use_sys_argv):
     print(raw_email)
 
 def login():
+    """Get account credentials"""
     global email_addr
     global email_pass
     if os.path.isfile("mailaddr") == True:
