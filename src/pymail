@@ -32,25 +32,33 @@ def send_email_from_terminal(use_sys_argv):
     """
 
     if use_sys_argv:
+    	# sysargv 2, 3, and 4
         to_addr, subject, body = [sys.argv[x] for x in range(2,5)]
     else:
         to_addr, subject, body = [raw_input(x + " = ") for x in ['Receiver address', 'Subject', 'Body']]
 
     send_mail(to_addr, subject, body, True)
 
-def send_email_from_file(delete_concept):
-    """Sends an email read from a file, given in the commandline"""
-    concept_file_obj = open(sys.argv[2], 'r')
-    concept_file = concept_file_obj.read()
-    split_data = concept_file.split('--- --- ---')
+def send_email_from_file(delete=False):
+    """Gets the email components from a given file
+    and sends an email with said components.
+    Will also delete the file if the delete variable == True
+    """
 
-    to_addr = split_data[0].replace('\n','')
-    subject = split_data[1].replace('\n','')
-    body = split_data[2]
+    to_addr, subject, body = None
+
+    # This will assure that the file is closed
+    with open(sys.argv[2], 'r') as file:
+    	file_contents = file.read()
+    	to_addr, subject, body = file_contents.split('--- --- ---')
+
+    # Remove newlines in address and subject
+    to_addr, subject = [x.replace('\n', '') for x in [to_addr, subject]]
 
     send_mail(to_addr, subject, body, False)
 
-    if delete_concept:
+    if delete:
+    	# Delete the file
         os.popen("trash " + sys.argv[2])
 
 def send_mail(to_addr, subject, body, verbose):
