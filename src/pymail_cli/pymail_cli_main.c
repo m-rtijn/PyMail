@@ -9,8 +9,6 @@
 #define WIDTH 30
 #define HEIGHT 10
 
-char *pymail_install_dir = "../pymail";
-
 int main(int argc, char *argv[])
 {
     // Vars

@@ -4,10 +4,13 @@
 #include <ncurses.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "pymail_cli.h"
 
 #define WIDTH 55
 #define HEIGHT 20
+
+char *pymail_install_dir = "../pymail";
 
 char to_addr[256];
 char subject[1024];
@@ -53,14 +56,15 @@ void send(int startx, int starty)
     fprintf(concept_file, "%s\n--- --- ---\n%s\n--- --- ---\n%s", to_addr, subject, body);
     fclose(concept_file);
 
-    system("../pymail file pymail_cli_send_concept.tmp n");
-
-    wclear(send_menu);
-    wclrtobot(send_menu);
-    wclrtoeol(send_menu);
-    wrefresh(send_menu);
+    char *cmd = " file pymail_cli_send_concept.tmp y";
+    char *dest;
+    strcpy(dest, pymail_install_dir);
+    strcat(dest, cmd);
+    system(dest);
 
     erase();
     refresh();
     printw("Email sent.");
+    getch();
+    refresh();
 }

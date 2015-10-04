@@ -40,7 +40,7 @@ If you want to use the UI, you first have to build it:
 
     cd Pymail/src/pymail_cli
 
-Before you compile it, you have to change line 12 in pymail_cli_main.c to where you've installed pymail:
+Before you compile it, you have to change line 12 in pymail_cli_send.c to where you've installed pymail:
 
     char *pymail_install_dir = "/dir/to/pymail";
 

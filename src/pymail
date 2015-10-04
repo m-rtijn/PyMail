@@ -55,11 +55,9 @@ def send_email_from_file(delete_concept):
 def send_mail(to_addr, subject, body, verbose):
     header = "Subject: %s\n\n%s" %(subject, body)
 
-    if verbose == True:
+    if verbose:
         print("Your email is:")
         print(header)
-
-    if verbose == True:
         print("Sending email...")
 
     s = smtplib.SMTP('smtp.gmail.com', 587)
@@ -69,7 +67,7 @@ def send_mail(to_addr, subject, body, verbose):
     s.login(email_addr, email_pass)
     s.sendmail(email_addr, to_addr, header)
     s.quit
-    if verbose == True:
+    if verbose:
         print("Email sent.")
 
 
