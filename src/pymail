@@ -119,12 +119,12 @@ def email_recv(use_sys_argv):
 
 
 def get_email_pass():
-	"""Get the email and password from the user.
-	Turn off output to terminal for password.
-	Returns a tuple with email and password.
-	"""
-	
-	_email = raw_input("Email address = ")
+    """Get the email and password from the user.
+    Turn off output to terminal for password.
+    Returns a tuple with email and password.
+    """
+    
+    _email = raw_input("Email address = ")
     print("Email password = ")
     # Turn off output in terminal
     os.popen("stty -echo")
