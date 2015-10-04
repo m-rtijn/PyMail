@@ -177,8 +177,10 @@ def pymail_help():
 
     print('Usage:')
 
-    print('\n'.join(['pymail ' + x for x in['help', 'config', 'send', 'send <receiver> <subject> <body>',
-                                            'receive', 'receive <n>', 'file <file> <delete (y/n)>']]))
+    commands = ['pymail ' + x for x in['help', 'config', 'send', 'send <receiver> <subject> <body>',
+                'receive', 'receive <n>', 'file <file> <delete (y/n)>']]
+
+    print('\n'.join(commands))
 
     print("For more help, see README.md")
 
