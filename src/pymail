@@ -50,7 +50,7 @@ def send_email_from_file(delete=False):
 
     # This will assure that the file is closed
     with open(sys.argv[2], 'r') as file:
-    	to_addr, subject, body = file.read().split('--- --- ---')
+    	to_addr, subject, body = file.read().split('--- --- ---')[:3]
 
     # Remove newlines in address and subject
     to_addr, subject = [x.replace('\n', '') for x in [to_addr, subject]]
