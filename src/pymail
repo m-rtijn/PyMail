@@ -150,7 +150,7 @@ def login():
     # If the file specified exists
     if os.path.isfile(install_path + "mailaddr"):
     	# Get the variables from the two files; install_path + mail(addr/pass)
-    	email_addr, email_pass = [open(install_path + 'mail%s' % x).read() for x in ['addr', 'pass']]
+    	email_addr, email_pass = [open(install_path + 'mail%s' % x).read().close() for x in ['addr', 'pass']]
     else:
         email_addr, email_pass = get_email_pass()
 
@@ -167,7 +167,7 @@ def config():
 
     # List comprehensions are awesome
     # Pretty self-explanatory, but saves the email and pass to the files
-    [open(install_path + 'mail%s' % x, 'w').write(y) for x, y in [['addr', email_addr], ['pass', email_pass]]]
+    [open(install_path + 'mail%s' % x, 'w').write(y).close() for x, y in [['addr', email_addr], ['pass', email_pass]]]
 
 
 def pymail_help():
