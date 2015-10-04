@@ -1,5 +1,6 @@
 Add:
-    - Enter support when passing from command line
+
+    - Escape-support when passing from command line
 
     - PyMail CLI using ncurses in C:
 
@@ -8,6 +9,8 @@ Add:
         - Receive emails
 
         - Configure PyMail
+
+        - Add in-UI help
 
     - Update README.md
 
