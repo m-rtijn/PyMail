@@ -63,6 +63,11 @@ def send_email_from_file(delete=False):
 
 
 def send_mail(to_addr, subject, body, verbose):
+	"""Send an email to the specified to_addr, with
+	a subject and a body. Will print extra information
+	if verbose is passed in.
+	"""
+
     header = "Subject: {}\n\n{}".format(subject, body)
 
     if verbose:
@@ -84,7 +89,11 @@ def send_mail(to_addr, subject, body, verbose):
 
 
 def email_recv(use_sys_argv):
-    """Receive the newest or given email"""
+    """Connect to mail-server and login.
+    After that select the inbox and get all emails.
+    Finally get the latest email from a list of emails
+    or `n`-th email if that is specified in sys_argvs"""
+
     # Connect and login
     mail = imaplib.IMAP4_SSL("imap.gmail.com")
     mail.login(email_addr, email_pass)
@@ -94,38 +103,42 @@ def email_recv(use_sys_argv):
 
     # Get the latest email id
     result, data = mail.search(None, "ALL")
-    msg_ids = data[0]
-    msg_id_list = msg_ids.split(' ')
+    msg_id_list = data[0].split(' ')
 
     # If n is not given, get newest email (-1)
-    if use_sys_argv == False:
-        n = -1
-    elif use_sys_argv == True:
-        n = int(sys.argv[2])
+    if use_sys_argv:
+    	n = int(sys.argv[2])
+    else:
+    	n = -1
 
-    email_id = msg_id_list[n]
+    # Get the latest email or n-th email if that is specified
+    result, data = mail.fetch(msg_id_list[n], "(RFC822)")
 
-    # Get the latest email
-    result, data = mail.fetch(email_id, "(RFC822)")
-    raw_email = data[0][1]
-
-    print(raw_email)
+    # This is the raw email data
+    print(data[0][1])
 
 
 def login():
-    """Get account credentials"""
+    """Get account credentials from files or from user
+    input if the file specified does not exist.
+    """
+
+    # Define global variables
     global email_addr
     global email_pass
-    if os.path.isfile(install_path + "mailaddr") == True:
-        mail_addr_file = open(install_path + "mailaddr", 'r')
-        email_addr = mail_addr_file.read()
-        mail_pass_file = open(install_path + "mailpass", 'r')
-        email_pass = mail_pass_file.read()
+
+    # If the file specified exists
+    if os.path.isfile(install_path + "mailaddr"):
+    	# Get the variables from the two files; install_path + mail(addr/pass)
+    	email_addr, email_pass = [open(install_path + 'mail%s' % x).read() for x in ['addr', 'pass']]
     else:
         email_addr = raw_input("Email address = ")
-        print("Email password = "),
+        print("Email password = ")
+        # Turn off output in terminal
         os.popen("stty -echo")
+        # Get the password which whill not be shown
         email_pass = raw_input()
+        # Turn on output in terminal
         os.popen("stty echo")
         print("\n")
 
