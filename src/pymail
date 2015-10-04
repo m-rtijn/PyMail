@@ -178,7 +178,7 @@ def pymail_help():
     print('Usage:')
 
     commands = ['help', 'config', 'send', 'send <receiver> <subject> <body>',
-    			'receive', 'receive <n>', 'file <file> <delete_concept (y/n)>']
+    			'receive', 'receive <n>', 'file <file> <delete (y/n)>']
 
     for command in commands:
     	print('pymail' + command)
