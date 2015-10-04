@@ -187,7 +187,7 @@ def pymail_help():
 
 # -------------------------------------------------------
 
-# init
+# Initialization
 
 if len(sys.argv) < 2:
     pymail_help()
@@ -209,12 +209,9 @@ elif sys.argv[1] == "file":
         send_email_from_file(True);
     else:
         send_email_from_file(False);
-
 elif sys.argv[1] == "help":
     pymail_help()
 elif sys.argv[1] == "config":
     config()
 else:
     pymail_help()
-
-
