@@ -118,6 +118,26 @@ def email_recv(use_sys_argv):
     print(data[0][1])
 
 
+def get_email_pass():
+	"""Get the email and password from the user.
+	Turn off output to terminal for password.
+	Returns a tuple with email and password.
+	"""
+
+	_email = raw_input("Email address = ")
+    print("Email password = ")
+    # Turn off output in terminal
+    os.popen("stty -echo")
+    # Get the password which whill not be shown
+    _pass = raw_input()
+    # Turn on output in terminal
+    os.popen("stty echo")
+
+    print("\n")
+
+    return (_email, _pass)
+
+
 def login():
     """Get account credentials from files or from user
     input if the file specified does not exist.
@@ -132,33 +152,22 @@ def login():
     	# Get the variables from the two files; install_path + mail(addr/pass)
     	email_addr, email_pass = [open(install_path + 'mail%s' % x).read() for x in ['addr', 'pass']]
     else:
-        email_addr = raw_input("Email address = ")
-        print("Email password = ")
-        # Turn off output in terminal
-        os.popen("stty -echo")
-        # Get the password which whill not be shown
-        email_pass = raw_input()
-        # Turn on output in terminal
-        os.popen("stty echo")
-        print("\n")
+        email_addr, email_pass = get_email_pass()
 
 
 def config():
-    """Get and save account credentials"""
+    """Get the credentials from the user and store them
+    in install_path + mail(addr/pass).
+    """
+
+    # TODO: Implement encryption.
     print("BE AWARE THAT YOUR CREDENTIALS WILL NOT BE ENCRYPTED.")
-    email_addr = raw_input("Email address = ")
 
-    print("Email password = "),
-    os.popen("stty -echo")
-    email_pass = raw_input()
-    os.popen("stty echo")
-    print("\n")
+    email_addr, email_pass = get_email_pass()
 
-    mail_addr_file = open("mailaddr", 'w')
-    mail_pass_file = open("mailpass", 'w')
-
-    mail_addr_file.write(email_addr)
-    mail_pass_file.write(email_pass)
+    # List comprehensions are awesome
+    # Pretty self-explanatory, but saves the email and pass to the files
+    [open(install_path + 'mail%s' % x, 'w').write(y) for x, y in [['addr', email_addr], ['pass', email_pass]]]
 
 
 def pymail_help():
