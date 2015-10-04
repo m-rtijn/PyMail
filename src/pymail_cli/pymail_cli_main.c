@@ -9,6 +9,8 @@
 #define WIDTH 30
 #define HEIGHT 10
 
+char *pymail_install_dir = "../pymail";
+
 int main(int argc, char *argv[])
 {
     // Vars
@@ -16,6 +18,7 @@ int main(int argc, char *argv[])
     int highlight = 1;
     int choice = 0;
     int c;
+    int startx, starty;
 
     startx = (80 - WIDTH) / 2;
     starty = (24 - HEIGHT) / 2;
@@ -38,9 +41,7 @@ int main(int argc, char *argv[])
                 send(2, 2);
                 break;
             case 2:
-                erase();
-                printw("TODO: Add this option (Receive email)");
-                getch();
+                recv(2, 2);
                 break;
             case 3:
                 print_help();
@@ -61,7 +62,6 @@ int main(int argc, char *argv[])
         }
         refresh();
     }
-
 
     clrtoeol();
     refresh();

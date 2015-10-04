@@ -93,7 +93,6 @@ int get_choice(int startx, int starty)
         }
     }
 
-    //mvprintw(23, 0, "%s", choices[choice - 1]);
     wclear(choice_menu);
     wclrtobot(choice_menu);
     wclrtoeol(choice_menu);

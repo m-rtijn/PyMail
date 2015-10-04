@@ -1,8 +1,8 @@
 CC = gcc
-CFLAGS = -w
+#CFLAGS =
 INCLUDES = -I.
 LIBS = -lncurses
-SRCS = pymail_cli_main.c pymail_cli_choice_menu.c pymail_cli_send.c pymail_cli_help.c
+SRCS = pymail_cli_main.c pymail_cli_choice_menu.c pymail_cli_send.c pymail_cli_recv.c pymail_cli_help.c
 
 # Define the object files by replacing .c with .o
 OBJS = $(SRCS:.c=.o)
@@ -13,7 +13,7 @@ MAIN = pymail_cli
 .PHONY: depend clean
 
 all:    $(MAIN)
-	@echo  Simple compiler named $(MAIN) has been compiled
+	@echo  $(MAIN) has been compiled
 	$(RM) *.o
 
 $(MAIN): $(OBJS) 

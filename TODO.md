@@ -14,6 +14,8 @@ Add:
 
     - Update README.md
 
+    - Add option to give a list of all the subjects & from_addresses in the inbox
+
 Test:
 
 Fix:

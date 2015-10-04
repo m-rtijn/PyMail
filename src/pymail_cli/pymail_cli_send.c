@@ -10,15 +10,15 @@
 #define WIDTH 55
 #define HEIGHT 20
 
-char *pymail_install_dir = "../pymail";
-
 char to_addr[256];
 char subject[1024];
 char body[65536];
 
+extern char *pymail_install_dir;
+
 void print_send_menu(WINDOW *send_menu)
 {
-    int x, y, i;
+    int x, y;
     x = 2;
     y = 2;
 
@@ -41,8 +41,9 @@ void print_send_menu(WINDOW *send_menu)
 
 void send(int startx, int starty)
 {
+    extern char *pymail_install_dir;
     WINDOW *send_menu;
-    send_menu = newwin(HEIGHT, WIDTH, startx, starty);
+    send_menu = newwin(HEIGHT, WIDTH, starty, startx);
     keypad(send_menu, TRUE);
     refresh();
 
