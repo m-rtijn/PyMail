@@ -171,15 +171,18 @@ def config():
 
 
 def pymail_help():
-    """Prints basic help"""
-    print("Usage:")
-    print("pymail help")
-    print("pymail config")
-    print("pymail send")
-    print("pymail send <receiver> <subject> <body>")
-    print("pymail receive")
-    print("pymail receive <n>")
-    print("pymail file <file> <delete_concept (y/n)>")
+    """Iterates over a list of options and prints them to the screen.
+    No list comp. here because print in python 2.x is a statement, not a function.
+    """
+
+    print('Usage:')
+
+    commands = ['help', 'config', 'send', 'send <receiver> <subject> <body>',
+    			'receive', 'receive <n>', 'file <file> <delete_concept (y/n)>']
+
+    for command in commands:
+    	print('pymail' + command)
+
     print("For more help, see README.md")
 
 # -------------------------------------------------------
