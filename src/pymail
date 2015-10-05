@@ -10,7 +10,6 @@
 import smtplib
 import imaplib
 import sys
-import time
 import os
 import re
 
@@ -50,9 +49,11 @@ def send_email_from_file(delete_concept):
     if delete_concept:
         os.popen("trash " + sys.argv[2])
 
-def send_mail(to_addr, subject, body, verbose):
-    header = "Subject: %s\n\n%s" %(subject, body)
+    concept_file_obj.close()
 
+def send_mail(to_addr, subject, body, verbose):
+    """The basic function that actually sends the email using STMP"""
+    header = "Subject: %s\n\n%s" %(subject, body)
     if verbose:
         print("Your email is:")
         print(header)
@@ -81,8 +82,10 @@ def recv_given_or_newest_email(use_sys_argv):
 
 def get_subj_and_from_list():
     # Compile regexes
-    subj_reg = re.compile("Subject: \S+")
-    from_reg = re.compile("From: \S+")
+    #subj_reg = re.compile("^Subject\:.+\b")
+    #from_reg = re.compile("^From\:.+\b\>?")
+    from_reg = re.compile("From\:.+")
+    subj_reg = re.compile("Subject\:.+")
 
     # Connect and login
     mail = imaplib.IMAP4_SSL("imap.gmail.com")
@@ -96,9 +99,10 @@ def get_subj_and_from_list():
     for email_id in msg_id_list:
         result, data = mail.fetch(email_id, "(RFC822)")
         raw_email = data[0][1]
-        from_address = from_reg.findall(raw_email)[0]
-        subject = subj_reg.findall(raw_email)[0]
-        print "(" + email_id + ") " + str(from_address) + " : " + str(subject)
+        raw_email = raw_email.replace("\r", '')
+        from_address = from_reg.findall(raw_email)
+        subject = subj_reg.findall(raw_email)
+        print "(" + email_id + ") " + str(from_address[len(from_address) - 1]) + " : " + str(subject[len(subject) - 1])
 
 def recv_email(n):
     """Receive the n-th email"""
@@ -143,19 +147,23 @@ def login():
 def config():
     """Get and save account credentials"""
     print("BE AWARE THAT YOUR CREDENTIALS WILL NOT BE ENCRYPTED OR PROTECTED IN ANY WAY.")
-    email_addr = raw_input("Email address = ")
 
+    email_addr = raw_input("Email address = ")
+    email_addr_split = email_addr.split("@")
+    if email_addr_split[1] != "gmail.com":
+        print("Sorry, PyMail only supports gmail.")
+        sys.exit(0)
     print("Email password = "),
     os.popen("stty -echo")
     email_pass = raw_input()
     os.popen("stty echo")
     print("\n")
 
-    mail_addr_file = open("mailaddr", 'w')
-    mail_pass_file = open("mailpass", 'w')
-
-    mail_addr_file.write(email_addr)
-    mail_pass_file.write(email_pass)
+    # Write the config data
+    with open("mailaddr", 'w') as mail_addr_file:
+        mail_addr_file.write(email_addr)
+    with open("mailpass", 'w') as mail_pass_file:
+        mail_pass_file.write(email_pass)
 
 def pymail_help():
     """Prints basic help"""
