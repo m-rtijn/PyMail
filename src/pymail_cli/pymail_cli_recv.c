@@ -9,23 +9,125 @@
 #define WIDTH 55
 #define HEIGHT 20
 
+#define CHOICE_MENU_WIDTH 25
+#define CHOICE_MENU_HEIGHT 8
+
 extern char *pymail_install_dir;
 
-void print_receive_menu(WINDOW *recv_menu)
+char *recv_choices[] = {
+            "View latest",
+            "List view",
+            "View n-th email",
+            "Back",
+                  };
+int recv_choicesc = sizeof(recv_choices) / sizeof(char *);
+
+void print_recv_choice_menu(WINDOW *recv_choice_menu, int highlight)
 {
-    box(recv_menu, 0, 0);
-    wrefresh(recv_menu);
-    wprintw(recv_menu, "%s", pymail_install_dir);
-    wrefresh(recv_menu);
-    getch();
+    int x, y, i;
+    x = 2;
+    y = 2;
+
+    box(recv_choice_menu, 0, 0);
+    for(i = 0; i < recv_choicesc; ++i)
+    {
+        if (highlight == i + 1)
+        {
+            wattron(recv_choice_menu, A_REVERSE);
+            mvwprintw(recv_choice_menu, y, x, "%s", recv_choices[i]);
+            wattroff(recv_choice_menu, A_REVERSE);
+        }
+        else
+        {
+            mvwprintw(recv_choice_menu, y, x, "%s", recv_choices[i]);
+        }
+        ++y;
+    }
+
+    wrefresh(recv_choice_menu);
+}
+
+void print_recv_list_view(WINDOW *recv_menu)
+{
+
+}
+
+void print_recv_latest(WINDOW *recv_menu)
+{
+
+}
+
+void print_recv_nth(WINDOW *recv_menu)
+{
+
 }
 
 void recv(int startx, int starty)
 {
-    WINDOW *recv_menu;
-    recv_menu = newwin(HEIGHT, WIDTH, starty, startx);
-    keypad(recv_menu, TRUE);
+    WINDOW *recv_choice_menu;
+    recv_choice_menu = newwin(CHOICE_MENU_HEIGHT, CHOICE_MENU_WIDTH, starty, startx);
+    keypad(recv_choice_menu, TRUE);
+    refresh();
+    int highlight = 1;
+    int choice = 0;
+    int c;
+
+    print_recv_choice_menu(recv_choice_menu, highlight);
+    while(1)
+    {
+        c = wgetch(recv_choice_menu);
+        switch(c)
+        {
+            case KEY_UP:
+                if (highlight == 1)
+                {
+                    highlight = recv_choicesc;
+                }
+                else
+                {
+                    --highlight;
+                }
+                break;
+            case KEY_DOWN:
+                if (highlight == recv_choicesc)
+                {
+                    highlight = 1;
+                }
+                else
+                {
+                    ++highlight;
+                }
+                break;
+            case 10:
+                choice = highlight;
+                break;
+            default:
+                refresh();
+                break;
+        }
+        print_recv_choice_menu(recv_choice_menu, highlight);
+        if (choice != 0)
+        {
+            break;
+        }
+    }
+
+    wclear(recv_choice_menu);
+    wclrtobot(recv_choice_menu);
+    wclrtoeol(recv_choice_menu);
+    wrefresh(recv_choice_menu);
+    delwin(recv_choice_menu);
     refresh();
 
-    print_receive_menu(recv_menu);
+    switch(choice)
+    {
+        case 1:
+            break; // TODO: add this
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            break; // Leave this one
+    }
 }

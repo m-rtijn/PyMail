@@ -13,7 +13,10 @@ int get_choice(int startx, int starty);
 void print_send_menu(WINDOW *send_menu);
 void send(int startx, int starty);
 
-void print_receive_menu(WINDOW *recv_menu);
+void print_recv_choice_menu(WINDOW *recv_choice_menu, int highlight);
+void print_recv_list_view(WINDOW *recv_menu);
+void print_recv_latest(WINDOW *recv_menu);
+void print_recv_nth(WINDOW *recv_menu);
 void recv(int startx, int starty);
 
 void print_help();

@@ -6,7 +6,7 @@
 #include "pymail_cli.h"
 
 #define WIDTH 30
-#define HEIGHT 10
+#define HEIGHT 9
 
 char *choices[] = {
             "Send email",
@@ -82,7 +82,6 @@ int get_choice(int startx, int starty)
                 choice = highlight;
                 break;
             default:
-                //mvprintw(24, 0, "Charcter pressed is = %3d Hopefully it can be printed as '%c'", c, c);
                 refresh();
                 break;
         }

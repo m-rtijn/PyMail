@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
                 send(2, 2);
                 break;
             case 2:
-                recv(2, 2);
+                recv(startx, starty);
                 break;
             case 3:
                 print_help();

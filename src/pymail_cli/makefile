@@ -1,5 +1,5 @@
 CC = gcc
-#CFLAGS =
+#CFLAGS = -g
 INCLUDES = -I.
 LIBS = -lncurses
 SRCS = pymail_cli_main.c pymail_cli_choice_menu.c pymail_cli_send.c pymail_cli_recv.c pymail_cli_help.c
