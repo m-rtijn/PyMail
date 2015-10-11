@@ -1,8 +1,10 @@
 Add:
 - Escape-support when passing from command line
 
-- PyMail CLI using ncurses in C:
+- Better error handling.
 
+- PyMail CLI using ncurses in C:
+ 
 - ~~Send emails~~
 
 - Receive emails
@@ -16,3 +18,6 @@ Add:
 Test:
 
 Fix:
+- Text overwriting the box when sending email.
+
+- Subject text overwriting the box and 'Body: ' when sending email.
