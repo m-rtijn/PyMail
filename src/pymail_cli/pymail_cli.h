@@ -15,9 +15,9 @@ void send(int startx, int starty);
 
 void print_recv_choice_menu(WINDOW *recv_choice_menu, int highlight);
 int recv_get_choice(int starty, int startx);
-void print_recv_list_view(WINDOW *recv_menu);
-void print_recv_latest(WINDOW *recv_menu);
-void print_recv_nth(WINDOW *recv_menu, int starty, int startx);
+void recv_list_view(WINDOW *recv_menu);
+void recv_latest(WINDOW *recv_menu);
+void recv_nth(WINDOW *recv_menu, int starty, int startx);
 void recv(int startx, int starty);
 
 void print_help();

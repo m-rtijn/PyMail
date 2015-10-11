@@ -98,40 +98,40 @@ int recv_get_choice(int starty, int startx)
     }
 
     wclear(recv_choice_menu);
-    wclrtobot(recv_choice_menu);
-    wclrtoeol(recv_choice_menu);
+    werase(recv_choice_menu);
     wrefresh(recv_choice_menu);
     delwin(recv_choice_menu);
     refresh();
     return choice;
 }
 
-void print_recv_list_view(WINDOW *recv_menu)
+void recv_list_view(WINDOW *recv_menu)
 {
     erase();
-    printw("TODO: Add this");
+    printw("TODO: Add this (recv list view)");
     getch();
     return;
 }
 
-void print_recv_latest(WINDOW *recv_menu)
+void recv_latest(WINDOW *recv_menu)
 {
-    // TODO: Add this
+    erase();
+    printw("TODO: Add this (recv latest)");
+    getch();
+    return;
 }
 
-void print_recv_nth(WINDOW *recv_menu, int starty, int startx)
+void recv_nth(WINDOW *recv_menu, int starty, int startx)
 {
     WINDOW *recv_nth_input_menu;
-    recv_nth_input_menu = newwin(50, 50, starty, startx);
-    refresh();
-    erase();
+    recv_nth_input_menu = newwin(3, 18, starty, startx);
 
     box(recv_nth_input_menu, 0, 0);
     wrefresh(recv_nth_input_menu);
-    wprintw(recv_nth_input_menu, "Hoi!");
-    printw("test");
-    refresh();
+    mvwprintw(recv_nth_input_menu, 1, 1, "email id = ");
     wrefresh(recv_nth_input_menu);
+    getch();
+    return;
 }
 
 void recv(int startx, int starty)
@@ -150,13 +150,13 @@ void recv(int startx, int starty)
         switch(choice)
         {
             case 1:
-                print_recv_latest(recv_menu);
+                recv_latest(recv_menu);
                 break;
             case 2:
-                print_recv_list_view(recv_menu);
+                recv_list_view(recv_menu);
                 break;
             case 3:
-                print_recv_nth(recv_menu, starty, startx);
+                recv_nth(recv_menu, starty, startx);
                 break;
             case 4:
                 return;
