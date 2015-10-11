@@ -47,22 +47,7 @@ void print_recv_choice_menu(WINDOW *recv_choice_menu, int highlight)
     wrefresh(recv_choice_menu);
 }
 
-void print_recv_list_view(WINDOW *recv_menu)
-{
-
-}
-
-void print_recv_latest(WINDOW *recv_menu)
-{
-
-}
-
-void print_recv_nth(WINDOW *recv_menu)
-{
-
-}
-
-void recv(int startx, int starty)
+int recv_get_choice(int starty, int startx)
 {
     WINDOW *recv_choice_menu;
     recv_choice_menu = newwin(CHOICE_MENU_HEIGHT, CHOICE_MENU_WIDTH, starty, startx);
@@ -118,6 +103,41 @@ void recv(int startx, int starty)
     wrefresh(recv_choice_menu);
     delwin(recv_choice_menu);
     refresh();
+    return choice;
+}
+
+void print_recv_list_view(WINDOW *recv_menu)
+{
+    wprintw(recv_menu, "Hoi");
+}
+
+void print_recv_latest(WINDOW *recv_menu)
+{
+
+}
+
+void print_recv_nth(WINDOW *recv_menu, int starty, int startx)
+{
+    WINDOW *recv_nth_input_menu;
+    recv_nth_input_menu = newwin(4, 4, starty, startx);
+    refresh();
+
+    box(recv_nth_input_menu, 0, 0);
+    wrefresh(recv_nth_input_menu);
+    wprintw(recv_nth_input_menu, "Hoi!");
+    refresh();
+}
+
+void recv(int startx, int starty)
+{
+    int choice;
+
+    choice = recv_get_choice(starty, startx);
+
+    WINDOW *recv_menu;
+    recv_menu = newwin(HEIGHT, WIDTH, 2, 2);
+    keypad(recv_menu, TRUE);
+    refresh();
 
     switch(choice)
     {
@@ -126,6 +146,7 @@ void recv(int startx, int starty)
         case 2:
             break;
         case 3:
+            print_recv_nth(recv_menu, starty, startx);
             break;
         case 4:
             break; // Leave this one
