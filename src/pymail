@@ -69,7 +69,6 @@ def send_mail(to_addr, subject, body, verbose):
     if verbose:
         print("Email sent.")
 
-
 def recv_given_or_newest_email(use_sys_argv):
     """Receive the newest or given email"""
     if use_sys_argv == False:
@@ -81,6 +80,7 @@ def recv_given_or_newest_email(use_sys_argv):
     print(raw_email)
 
 def get_subj_and_from_list():
+    """Print a list of the from_address and subject of all the mails in the inbox."""
     # Compile regexes
     #subj_reg = re.compile("^Subject\:.+\b")
     #from_reg = re.compile("^From\:.+\b\>?")

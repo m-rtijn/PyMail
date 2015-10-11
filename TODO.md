@@ -1,18 +1,17 @@
 Add:
+- Escape-support when passing from command line
 
-    - Escape-support when passing from command line
+- PyMail CLI using ncurses in C:
 
-    - PyMail CLI using ncurses in C:
+- ~~Send emails~~
 
-        - ~~Send emails~~
+- Receive emails
 
-        - Receive emails
+- Configure PyMail
 
-        - Configure PyMail
+- Add in-UI help
 
-        - Add in-UI help
-
-    - Update README.md
+- Update README.md
 
 Test:
 
