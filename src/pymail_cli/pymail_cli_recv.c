@@ -108,7 +108,10 @@ int recv_get_choice(int starty, int startx)
 
 void print_recv_list_view(WINDOW *recv_menu)
 {
-    // TODO: Add this
+    erase();
+    printw("TODO: Add this");
+    getch();
+    return;
 }
 
 void print_recv_latest(WINDOW *recv_menu)
@@ -119,17 +122,21 @@ void print_recv_latest(WINDOW *recv_menu)
 void print_recv_nth(WINDOW *recv_menu, int starty, int startx)
 {
     WINDOW *recv_nth_input_menu;
-    recv_nth_input_menu = newwin(4, 4, starty, startx);
+    recv_nth_input_menu = newwin(50, 50, starty, startx);
     refresh();
+    erase();
 
     box(recv_nth_input_menu, 0, 0);
     wrefresh(recv_nth_input_menu);
     wprintw(recv_nth_input_menu, "Hoi!");
+    printw("test");
     refresh();
+    wrefresh(recv_nth_input_menu);
 }
 
 void recv(int startx, int starty)
 {
+    erase();
     WINDOW *recv_menu;
     recv_menu = newwin(HEIGHT, WIDTH, 2, 2);
     keypad(recv_menu, TRUE);
@@ -140,23 +147,22 @@ void recv(int startx, int starty)
     {
         choice = recv_get_choice(starty, startx);
 
-    printw("%d", choice);
-    refresh();
-
-    switch(choice)
-    {
-        case 1:
-            print_recv_latest(recv_menu);
-            break;
-        case 2:
-            print_recv_list_view(recv_menu);
-            break;
-        case 3:
-            print_recv_nth(recv_menu, starty, startx);
-            break;
-        case 4:
-            return;
-    }
+        switch(choice)
+        {
+            case 1:
+                print_recv_latest(recv_menu);
+                break;
+            case 2:
+                print_recv_list_view(recv_menu);
+                break;
+            case 3:
+                print_recv_nth(recv_menu, starty, startx);
+                break;
+            case 4:
+                return;
+        }
+        refresh();
+        wrefresh(recv_menu);
     }
 
 }
