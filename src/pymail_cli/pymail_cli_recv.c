@@ -123,14 +123,33 @@ void recv_latest(WINDOW *recv_menu)
 
 void recv_nth(WINDOW *recv_menu, int starty, int startx)
 {
+    char *input_n[128];
     WINDOW *recv_nth_input_menu;
-    recv_nth_input_menu = newwin(3, 18, starty, startx);
+    int x = 1;
+    int y = 1;
 
+
+    // Get the email id from the user.
+    recv_nth_input_menu = newwin(3, 18, starty, startx);
     box(recv_nth_input_menu, 0, 0);
     wrefresh(recv_nth_input_menu);
-    mvwprintw(recv_nth_input_menu, 1, 1, "email id = ");
+
+    mvwprintw(recv_nth_input_menu, y, x, "email id = ");
     wrefresh(recv_nth_input_menu);
-    getch();
+
+    mvwgetstr(recv_nth_input_menu, y, x + strlen("email id = "), input_n);
+    wrefresh(recv_nth_input_menu);
+
+    // Create the command to execute
+    char *cmd_part_1 = " receive ";
+    char *cmd_part_2 = " > /tmp/pymail_cli_recv_nth_tmp";
+    char *cmd[2048];
+    strcpy(cmd, pymail_install_dir);
+    strcat(cmd, cmd_part_1);
+    strcat(cmd, input_n);
+    strcat(cmd, cmd_part_2);
+    system(cmd);
+
     return;
 }
 
@@ -145,6 +164,8 @@ void recv(int startx, int starty)
 
     while(1)
     {
+        erase();
+        refresh();
         choice = recv_get_choice(starty, startx);
 
         switch(choice)
