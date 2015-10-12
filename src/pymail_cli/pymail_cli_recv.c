@@ -100,7 +100,7 @@ int recv_get_choice(int starty, int startx)
     wclear(recv_choice_menu);
     werase(recv_choice_menu);
     wrefresh(recv_choice_menu);
-    delwin(recv_choice_menu);
+    //delwin(recv_choice_menu);
     refresh();
     return choice;
 }
@@ -123,11 +123,11 @@ void recv_latest(WINDOW *recv_menu)
 
 void recv_nth(WINDOW *recv_menu, int starty, int startx)
 {
-    char *input_n[128];
+    char input_n[128];
     WINDOW *recv_nth_input_menu;
+    WINDOW *recv_nth_show_email;
     int x = 1;
     int y = 1;
-
 
     // Get the email id from the user.
     recv_nth_input_menu = newwin(3, 18, starty, startx);
@@ -142,13 +142,45 @@ void recv_nth(WINDOW *recv_menu, int starty, int startx)
 
     // Create the command to execute
     char *cmd_part_1 = " receive ";
-    char *cmd_part_2 = " > /tmp/pymail_cli_recv_nth_tmp";
-    char *cmd[2048];
+    char *cmd_part_2 = " > /tmp/pymail_cli_recv_nth.tmp";
+    char cmd[2048];
     strcpy(cmd, pymail_install_dir);
     strcat(cmd, cmd_part_1);
     strcat(cmd, input_n);
     strcat(cmd, cmd_part_2);
+
+    // Get the email by executing the previously made command.
+    printw("Loading email...");
+    refresh();
     system(cmd);
+
+    // Clear the screen
+    werase(recv_nth_input_menu);
+    wrefresh(recv_nth_input_menu);
+    erase();
+    refresh();
+
+    // Read the mail
+    FILE *recv_file = fopen("/tmp/pymail_cli_recv_nth.tmp", "r");
+    if (recv_file == NULL) { terminate("Error opening file."); }
+    char *recv_file_buffer = 0;
+    long file_length;
+
+    fseek(recv_file, 0, SEEK_END);
+    file_length = ftell(recv_file);
+    fseek(recv_file, 0, SEEK_SET);
+    recv_file_buffer = malloc(file_length);
+    fread(recv_file_buffer, 1, file_length, recv_file);
+    fclose(recv_file);
+
+    recv_nth_show_email = newwin(128, 128, starty, startx);
+    //mvwprintw(recv_nth_show_email, y, x, "%s", recv_file_buffer);
+    wrefresh(recv_nth_show_email);
+    wgetch(recv_nth_show_email);
+
+    printw("%s", recv_file_buffer);
+    refresh();
+    getch();
 
     return;
 }
