@@ -24,7 +24,7 @@ int recv_choicesc = sizeof(recv_choices) / sizeof(char *);
 
 char* read_tmp_email_file()
 {
-    FILE *recv_file = fopen("pymail_cli_recv_nth.tmp", "r");
+    FILE *recv_file = fopen("pymail_cli_recv.tmp", "r");
     if (recv_file == NULL) { terminate("Error opening file."); }
     char *recv_file_buffer;
     long file_length;
@@ -37,6 +37,14 @@ char* read_tmp_email_file()
     fclose(recv_file);
 
     return recv_file_buffer;
+}
+
+void show_email(WINDOW *email_window, char *email)
+{
+    wprintw(email_window, "%s", email);
+    wrefresh(email_window);
+    wgetch(email_window);
+    return;
 }
 
 void print_recv_choice_menu(WINDOW *recv_choice_menu, int highlight)
@@ -132,10 +140,24 @@ void recv_list_view(WINDOW *recv_menu)
 
 void recv_latest(WINDOW *recv_menu)
 {
+    WINDOW *recv_latest_show_email;
+    int x = 1;
+    int y = 1;
+
+    // Create and execute command to receive the email using PyMail
+    char *cmd_part = " receive > pymail_cli_recv.tmp";
+    char cmd[2048];
+    strcpy(cmd, pymail_install_dir);
+    strcat(cmd, cmd_part);
+    printw("Loading email...");
+    refresh();
+    system(cmd);
     erase();
-    printw("TODO: Add this (recv latest)");
-    getch();
-    return;
+    refresh();
+
+    char *email_buffer = read_tmp_email_file();
+
+    show_email(recv_menu, email_buffer);
 }
 
 void recv_nth(WINDOW *recv_menu, int starty, int startx)
@@ -145,6 +167,8 @@ void recv_nth(WINDOW *recv_menu, int starty, int startx)
     WINDOW *recv_nth_show_email;
     int x = 1;
     int y = 1;
+
+    recv_nth_show_email = newwin(HEIGHT, WIDTH, 1, 1);
 
     // Get the email id from the user.
     recv_nth_input_menu = newwin(3, 18, starty, startx);
@@ -157,9 +181,9 @@ void recv_nth(WINDOW *recv_menu, int starty, int startx)
     mvwgetstr(recv_nth_input_menu, y, x + strlen("email id = "), input_n);
     wrefresh(recv_nth_input_menu);
 
-    // Create the command to execute
+    // Create command to receive the email using PyMail
     char *cmd_part_1 = " receive ";
-    char *cmd_part_2 = " > pymail_cli_recv_nth.tmp";
+    char *cmd_part_2 = " > pymail_cli_recv.tmp";
     char cmd[2048];
     strcpy(cmd, pymail_install_dir);
     strcat(cmd, cmd_part_1);
@@ -181,11 +205,14 @@ void recv_nth(WINDOW *recv_menu, int starty, int startx)
     char *recv_file_buffer = read_tmp_email_file();
 
     // TODO: Fix the way the email is displayed.
+    /*
     recv_nth_show_email = newwin(128, 128, 1, 1);
     //box(recv_nth_show_email, 0, 0);
     mvwprintw(recv_nth_show_email, y, x, "%s", recv_file_buffer);
     wrefresh(recv_nth_show_email);
     wgetch(recv_nth_show_email);
+    */
+    show_email(recv_nth_show_email, recv_file_buffer);
 
     free(recv_file_buffer);
     return;

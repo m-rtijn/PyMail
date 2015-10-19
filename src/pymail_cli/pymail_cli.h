@@ -13,6 +13,8 @@ int get_choice(int startx, int starty);
 void print_send_menu(WINDOW *send_menu);
 void send(int startx, int starty);
 
+char* read_tmp_email_file();
+void show_email(WINDOW *email_window, char *email);
 void print_recv_choice_menu(WINDOW *recv_choice_menu, int highlight);
 int recv_get_choice(int starty, int startx);
 void recv_list_view(WINDOW *recv_menu);
