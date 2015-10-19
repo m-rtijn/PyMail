@@ -20,7 +20,7 @@ void print_send_menu(WINDOW *send_menu)
 {
     int x, y;
     x = 2;
-    y = 2;
+    y = 1;
 
     box(send_menu, 0, 0);
 

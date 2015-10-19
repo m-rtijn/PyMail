@@ -1,5 +1,5 @@
 Add:
-- Escape-support when passing from command line
+- Return-support when passing from command line
 
 - Better error handling.
 
@@ -7,7 +7,7 @@ Add:
  
 - ~~Send emails~~
 
-- Receive emails
+- ~~Receive emails~~
 
 - Configure PyMail
 
@@ -17,9 +17,7 @@ Add:
 
 - 'Sending...' statement while waiting for pymail to send the email.
 
-- Move all *.tmp files to /tmp/
-
-- Also add (better) error handling in pymail_cli
+- (better) error handling in pymail_cli
 
 Test:
 
@@ -27,6 +25,8 @@ Fix:
 - Text overwriting the box when sending email.
 
 - Subject text overwriting the box and 'Body: ' when sending email.
+
+- Displaying received emails
 
 Optimize:
 - Everything
