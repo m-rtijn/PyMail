@@ -48,7 +48,6 @@ void show_email(WINDOW *email_window, char *email)
     getch();
     erase();
     refresh();
-    return;
 }
 
 void print_recv_choice_menu(WINDOW *recv_choice_menu, int highlight)
@@ -135,10 +134,24 @@ int recv_get_choice(int starty, int startx)
 
 void recv_list_view(WINDOW *recv_menu)
 {
+    WINDOW *recv_latest_show_email;
+    int x = 1;
+    int y = 1;
+
+    // Create and execute command to receive the email using PyMail
+    char *cmd_part = " receive list > pymail_cli_recv.tmp";
+    char cmd[2048];
+    strcpy(cmd, pymail_install_dir);
+    strcat(cmd, cmd_part);
+    printw("Loading emails...");
+    refresh();
+    system(cmd);
     erase();
-    printw("TODO: Add this (recv list view)");
-    getch();
-    return;
+    refresh();
+
+    char *email_buffer = read_tmp_email_file();
+    show_email(recv_menu, email_buffer);
+    free(email_buffer);
 }
 
 void recv_latest(WINDOW *recv_menu)
@@ -159,8 +172,8 @@ void recv_latest(WINDOW *recv_menu)
     refresh();
 
     char *email_buffer = read_tmp_email_file();
-
     show_email(recv_menu, email_buffer);
+    free(email_buffer);
 }
 
 void recv_nth(WINDOW *recv_menu, int starty, int startx)
@@ -205,12 +218,12 @@ void recv_nth(WINDOW *recv_menu, int starty, int startx)
     refresh();
 
     // Read the mail
-    char *recv_file_buffer = read_tmp_email_file();
+    char *email_buffer = read_tmp_email_file();
 
     // TODO: Fix the way the email is displayed.
-    show_email(recv_nth_show_email, recv_file_buffer);
+    show_email(recv_nth_show_email, email_buffer);
 
-    free(recv_file_buffer);
+    free(email_buffer);
     return;
 }
 
