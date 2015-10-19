@@ -22,6 +22,23 @@ char *recv_choices[] = {
                   };
 int recv_choicesc = sizeof(recv_choices) / sizeof(char *);
 
+char* read_tmp_email_file()
+{
+    FILE *recv_file = fopen("pymail_cli_recv_nth.tmp", "r");
+    if (recv_file == NULL) { terminate("Error opening file."); }
+    char *recv_file_buffer;
+    long file_length;
+
+    fseek(recv_file, 0, SEEK_END);
+    file_length = ftell(recv_file);
+    fseek(recv_file, 0, SEEK_SET);
+    recv_file_buffer = (char*)calloc(file_length, sizeof(char));
+    fread(recv_file_buffer, sizeof(char), file_length, recv_file);
+    fclose(recv_file);
+
+    return recv_file_buffer;
+}
+
 void print_recv_choice_menu(WINDOW *recv_choice_menu, int highlight)
 {
     int x, y, i;
@@ -142,7 +159,7 @@ void recv_nth(WINDOW *recv_menu, int starty, int startx)
 
     // Create the command to execute
     char *cmd_part_1 = " receive ";
-    char *cmd_part_2 = " > /tmp/pymail_cli_recv_nth.tmp";
+    char *cmd_part_2 = " > pymail_cli_recv_nth.tmp";
     char cmd[2048];
     strcpy(cmd, pymail_install_dir);
     strcat(cmd, cmd_part_1);
@@ -161,27 +178,16 @@ void recv_nth(WINDOW *recv_menu, int starty, int startx)
     refresh();
 
     // Read the mail
-    FILE *recv_file = fopen("/tmp/pymail_cli_recv_nth.tmp", "r");
-    if (recv_file == NULL) { terminate("Error opening file."); }
-    char *recv_file_buffer = 0;
-    long file_length;
+    char *recv_file_buffer = read_tmp_email_file();
 
-    fseek(recv_file, 0, SEEK_END);
-    file_length = ftell(recv_file);
-    fseek(recv_file, 0, SEEK_SET);
-    recv_file_buffer = malloc(file_length);
-    fread(recv_file_buffer, 1, file_length, recv_file);
-    fclose(recv_file);
-
-    recv_nth_show_email = newwin(128, 128, starty, startx);
-    //mvwprintw(recv_nth_show_email, y, x, "%s", recv_file_buffer);
+    // TODO: Fix the way the email is displayed.
+    recv_nth_show_email = newwin(128, 128, 1, 1);
+    //box(recv_nth_show_email, 0, 0);
+    mvwprintw(recv_nth_show_email, y, x, "%s", recv_file_buffer);
     wrefresh(recv_nth_show_email);
     wgetch(recv_nth_show_email);
 
-    printw("%s", recv_file_buffer);
-    refresh();
-    getch();
-
+    free(recv_file_buffer);
     return;
 }
 
