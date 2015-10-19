@@ -61,3 +61,4 @@ src/pymail_cli/a.out
 src/mailaddr
 src/mailpass
 src/pymail_cli/pymail_cli_send_concept.tmp
+*.tmp
