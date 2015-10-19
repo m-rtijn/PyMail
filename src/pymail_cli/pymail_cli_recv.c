@@ -41,9 +41,13 @@ char* read_tmp_email_file()
 
 void show_email(WINDOW *email_window, char *email)
 {
-    wprintw(email_window, "%s", email);
-    wrefresh(email_window);
-    wgetch(email_window);
+    // TODO: Fix the way the email is displayed.
+    erase();
+    printf("%s", email); // A temp shitty workaround. Should fix this.
+    refresh();
+    getch();
+    erase();
+    refresh();
     return;
 }
 
@@ -68,7 +72,6 @@ void print_recv_choice_menu(WINDOW *recv_choice_menu, int highlight)
         }
         ++y;
     }
-
     wrefresh(recv_choice_menu);
 }
 
@@ -205,13 +208,6 @@ void recv_nth(WINDOW *recv_menu, int starty, int startx)
     char *recv_file_buffer = read_tmp_email_file();
 
     // TODO: Fix the way the email is displayed.
-    /*
-    recv_nth_show_email = newwin(128, 128, 1, 1);
-    //box(recv_nth_show_email, 0, 0);
-    mvwprintw(recv_nth_show_email, y, x, "%s", recv_file_buffer);
-    wrefresh(recv_nth_show_email);
-    wgetch(recv_nth_show_email);
-    */
     show_email(recv_nth_show_email, recv_file_buffer);
 
     free(recv_file_buffer);
@@ -250,5 +246,4 @@ void recv(int startx, int starty)
         refresh();
         wrefresh(recv_menu);
     }
-
 }
