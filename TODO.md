@@ -15,7 +15,7 @@ Add:
 
 - Update README.md
 
-- 'Sending...' statement while waiting for pymail to send the email.
+- ~~'Sending...' statement while waiting for pymail to send the email.~~
 
 - (better) error handling in pymail_cli
 

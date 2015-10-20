@@ -50,6 +50,9 @@ void send(int startx, int starty)
     // Get all the info from the user using a nice UI
     print_send_menu(send_menu);
 
+    erase();
+    printw("Sending email...");
+    refresh();
     FILE *concept_file = fopen("pymail_cli_send_concept.tmp", "w");
     if (concept_file == NULL) { terminate("Error opening file."); }
 
