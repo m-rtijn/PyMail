@@ -17,12 +17,12 @@ import re
 
 email_addr = ""
 email_pass = ""
-install_path = "/home/martijn/Coding/git/PyMail/src/"
+install_path = "/home/martijn/Coding/GitHub/PyMail/src/"
 
 # -------------------------------------------------------
 
 def send_email_from_terminal(use_sys_argv):
-    """Send an email"""
+    """Send an email using the command line"""
     if use_sys_argv == False:
         to_addr = raw_input("Receiver address = ")
         subject = raw_input("Subject = ")
@@ -35,7 +35,7 @@ def send_email_from_terminal(use_sys_argv):
     send_mail(to_addr, subject, body, True)
 
 def send_email_from_file(delete_concept):
-    """Sends an email read from a file, given in the commandline"""
+    """Sends an email read from a file, given in the command line"""
     concept_file_obj = open(sys.argv[2], 'r')
     concept_file = concept_file_obj.read()
     split_data = concept_file.split('--- --- ---')
@@ -82,8 +82,6 @@ def recv_given_or_newest_email(use_sys_argv):
 def get_subj_and_from_list():
     """Print a list of the from_address and subject of all the mails in the inbox."""
     # Compile regexes
-    #subj_reg = re.compile("^Subject\:.+\b")
-    #from_reg = re.compile("^From\:.+\b\>?")
     from_reg = re.compile("From\:.+")
     subj_reg = re.compile("Subject\:.+")
 
